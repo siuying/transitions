@@ -52,7 +52,7 @@ module ActiveModel
       unless self.save
         self.state = prev_state.to_s
         instance_variable_set(ivar, prev_state)
-        raise
+        raise "Failed saving model: #{self.errors.messages}"
       end
     end
 
