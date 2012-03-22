@@ -49,11 +49,11 @@ module ActiveModel
       prev_state = current_state(state_machine.name)
       instance_variable_set(ivar, state)
       self.state = state.to_s
-      save!
-    rescue ActiveRecord::RecordInvalid
-      self.state = prev_state.to_s
-      instance_variable_set(ivar, prev_state)
-      raise
+      unless self.save
+        self.state = prev_state.to_s
+        instance_variable_set(ivar, prev_state)
+        raise
+      end
     end
 
     def read_state(state_machine)
